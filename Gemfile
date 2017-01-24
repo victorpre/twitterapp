@@ -42,6 +42,9 @@ gem 'activerecord-session_store'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+
+gem 'geocoder'
+
 group :development, :test do
   gem 'pry'
 end
