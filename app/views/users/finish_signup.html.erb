@@ -1,0 +1,24 @@
+<div id="add-email" class="container">
+  <h1>Add Email</h1>
+  <%= form_for(current_user, :url => finish_signup_path(current_user), :html => { role: 'form'}) do |f| %>
+    <% if @show_errors && current_user.errors.any? %>
+      <div id="error_explanation">
+        <% current_user.errors.full_messages.each do |msg| %>
+          <%= msg %><br>
+        <% end %>
+      </div>
+    <% end %>
+    <% @form_fields.each do |field|%>
+      <div class="form-group">
+        <%= f.label field.to_sym %>
+        <div class="controls">
+          <%= f.text_field field.to_sym, :value => '', class: 'form-control input-lg' %>
+        </div>
+      </div>
+    <% end %>
+    <div class="actions">
+      <%= f.submit 'Continue', :class => 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
+<%= link_to "Finish later", home_path %>
