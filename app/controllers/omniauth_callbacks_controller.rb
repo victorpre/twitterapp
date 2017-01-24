@@ -15,7 +15,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def after_sign_in_path_for(resource)
     if resource.has_complete_profile?
-      super resource
+      root_path
     else
       finish_signup_path(resource)
     end

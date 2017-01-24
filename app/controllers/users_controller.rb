@@ -34,7 +34,7 @@ class UsersController < ApplicationController
      if request.patch? && params[:user]
        if @user.update(user_params)
          sign_in(@user, :bypass => true)
-         redirect_to home_index_url, notice: 'Your profile was successfully updated.'
+         redirect_to root_url, notice: 'Your profile was successfully updated.'
        else
          @show_errors = true
        end

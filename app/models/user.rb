@@ -31,10 +31,20 @@ class User < ApplicationRecord
 
   def has_complete_profile?
     info = ["name", "phone_number", "address", "city", "state", "country"]
-    info.all?{|att| self.attributes[att].empty? }
+    info.all?{|att| !self.attributes[att].empty? } and !self.has_default_email?
+  end
+
+  def has_default_email?
+    if TEMP_EMAIL_REGEX.match(self.email)
+      true
+    else
+      false
+    end
   end
 
   def missing_attributes
-    self.attributes.select{|k,v| v.blank?}.keys
+    keys = self.attributes.select{|k,v| v.blank?}.keys
+    keys.unshift("email") if self.has_default_email?
+    keys
   end
 end
