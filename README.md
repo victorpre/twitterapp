@@ -1,11 +1,11 @@
 # Gympass recruiting test
 In this test you should:
-- Create users using an existing Twitter account
-- Login using a Twitter account
+- ~~Create users using an existing Twitter account~~
+- ~~Login using a Twitter account~~
 - Collect some extra info, like:
     - email
-    - address
-    - telephone
+    - ~~address~~
+    - ~~telephone~~
 
 -  Consume twitter API
     - Search for a hashtag
