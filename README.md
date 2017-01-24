@@ -4,9 +4,9 @@ In this test you should:
 - ~~Login using a Twitter account~~
 
 - Collect some extra info, like:
-    - ~~email~~
-    - ~~address~~
-    - ~~telephone~~
+	- ~~email~~
+	- ~~address~~
+	- ~~telephone~~
     
 -  Consume twitter API
     - Search for a hashtag
