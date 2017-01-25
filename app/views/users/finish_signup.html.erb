@@ -1,5 +1,4 @@
-<div id="add-email" class="container">
-  <h1>Add Email</h1>
+<div class="container">
   <%= form_for(current_user, :url => finish_signup_path(current_user), :html => { role: 'form'}) do |f| %>
     <% if @show_errors && current_user.errors.any? %>
       <div id="error_explanation">
@@ -16,9 +15,13 @@
         </div>
       </div>
     <% end %>
-    <div class="actions">
-      <%= f.submit 'Continue', :class => 'btn btn-primary' %>
+    <div class="row">
+      <div class="col-xs-6">
+        <%= f.submit 'Save', :class => 'btn btn-lg btn-success btn-block' %>
+      </div>
+      <div class="col-xs-6">
+        <%= link_to 'Do it later', home_path, class: 'btn btn-lg btn-default btn-block' %>
+      </div>
     </div>
   <% end %>
 </div>
-<%= link_to "Finish later", home_path %>

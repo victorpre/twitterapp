@@ -4,13 +4,13 @@ class TweetsController < ApplicationController
   end
 
   def index
-    tweet_params
-    @tweets = TwitterQuery.do(tweet_params.to_h)
+    tweet_params_hash = TwitterQuery.clean_params(tweet_params.to_h)
+    @tweets = TwitterQuery.do(tweet_params_hash)
   end
 
   private
   def tweet_params
-    accessible = [:q, :positive, :negative, :since, :until, :location]
+    accessible = [:q, :location, :since, :until, :attitude]
     params.require(:query).permit(accessible)
   end
 end

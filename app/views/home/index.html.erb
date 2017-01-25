@@ -1,13 +1,5 @@
-<% if user_signed_in? %>
-  Signed in as <%= current_user.name %>. Not you?
-  <%= form_for :query, url: tweets_path, method: "get" do |f| %>
-    <%= f.label :q, "Search:" %>
-    <%= f.text_field :q, placeholder:"#hashtag" %>
-    <%= f.submit "Search" %>
-  <% end %>
-  <%= link_to "Sign out", destroy_user_session_path,:method => :delete %>
-<% else %>
-  <%= link_to "Sign up", new_user_registration_path %> or
-  <%= link_to "Sign in", new_user_session_path %>
-  <%= link_to "Sign in with Twitter", user_omniauth_authorize_path(:twitter) %>
-<% end %>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="text-center" style="color: grey">Nothing to show...</h1>
+  </div>
+</div>
