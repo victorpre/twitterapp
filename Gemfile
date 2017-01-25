@@ -44,6 +44,7 @@ gem 'activerecord-session_store'
 
 
 gem 'geocoder'
+gem 'will_paginate'
 
 group :development, :test do
   gem 'pry'
