@@ -9,8 +9,8 @@ In this test you should:
 	- ~~telephone~~
     
 -  Consume twitter API
-    - Search for a hashtag
-    - Filter by a period
+    - ~~Search for a hashtag~~
+    - Filter by a period
     - Filter by attitude (positive or negative)
 	- Filter by geolocation
 
