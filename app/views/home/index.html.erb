@@ -1,9 +1,9 @@
 <% if user_signed_in? %>
   Signed in as <%= current_user.name %>. Not you?
-  <%= form_tag("/tweets", method: "get") do %>
-    <%= label_tag(:q, "Search for:") %>
-    <%= text_field_tag(:q) %>
-    <%= submit_tag("Search") %>
+  <%= form_for :query, url: tweets_path, method: "get" do |f| %>
+    <%= f.label :q, "Search:" %>
+    <%= f.text_field :q, placeholder:"#hashtag" %>
+    <%= f.submit "Search" %>
   <% end %>
   <%= link_to "Sign out", destroy_user_session_path,:method => :delete %>
 <% else %>
