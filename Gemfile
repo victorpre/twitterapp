@@ -47,6 +47,7 @@ gem 'activerecord-session_store'
 # Tweets
 gem 'geocoder'
 gem 'will_paginate'
+gem 'rails_autolink'
 
 group :development, :test do
   gem 'pry'
