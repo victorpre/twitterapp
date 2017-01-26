@@ -10,13 +10,13 @@ In this test you should:
     
 -  Consume twitter API
 	- ~~Search for a hashtag~~
-	- Filter by a period
-	- Filter by attitude (positive or negative)
-	- Filter by geolocation
-
+	- ~~Filter by a period~~
+	- ~~Filter by attitude (positive or negative)~~
+	- ~~Filter by geolocation~~
+	
 - Within the tweets:
-    - ommit offensive words like ass or bitch
-    - populate a map using the geolocation
+	- ~~ommit offensive words like ass or bitch~~
+	- populate a map using the geolocation
 
 You can use whatever gems you prefer.
 
