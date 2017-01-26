@@ -1,4 +1,6 @@
 class TwitterQuery
+  OFFENSIVE_WORDS_DICT = ["ass", "bitch", "cunt", "fuck","fucker", "motherfucker", "nigger", "asshole"]
+
   def self.do(args = {})
     client = TwitterClientFactory.new.client
 
@@ -15,7 +17,7 @@ class TwitterQuery
                  "created_at"  => tweet.created_at.to_date.strftime("%a, %d %b %Y"),
                  "name"        => tweet.user.name,
                  "profile_image_url"=> tweet.user.profile_image_url.to_s.gsub("_normal",""),
-                 "text"        => tweet.full_text }
+                 "text"        => clean_tweet(tweet.full_text) }
     end
     tweets
   end
@@ -61,12 +63,12 @@ class TwitterQuery
     end
   end
 
-  def self.clean_tweets()
-
-  end
-
-  def self.prepare_tweets_html(tweets)
-
+  def self.clean_tweet(tweet)
+    offensive_words = tweet.downcase.split(" ") & OFFENSIVE_WORDS_DICT
+    offensive_words.each do |word|
+      tweet.gsub!(word,"*"*word.size)
+    end
+    tweet
   end
 
   def self.prepare_query(hashtag, attitude)
