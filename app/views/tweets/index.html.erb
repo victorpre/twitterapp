@@ -1,11 +1,17 @@
 <div class="container">
-  <h1>Tweets#index</h1>
-  <p>Find me in app/views/tweets/index.html.erb</p>
   <%@tweets.each do |tweet|%>
-    <div>
-      <p><strong><%= "#{tweet["name"]} - @#{tweet["screen_name"]}" %></strong></p>
-      <%= tweet["text"]%></br>
-      -------------------------------------
+    <div class="row">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-header-blue">
+               <h1 class="card-heading"><%= "#{tweet["name"]}"%></h1>
+               <i><span class="username help-block"><%="@#{tweet["screen_name"]}"%></span></i>
+            </div>
+            <div class="card-body">
+            <p> <%= tweet["text"]%></p>
+          </div>
+        </div>
+      </div>
     </div>
   <%end%>
 </div>

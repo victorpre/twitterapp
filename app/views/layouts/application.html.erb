@@ -24,19 +24,19 @@
           <div id="navbar" class="collapse navbar-collapse">
             <%= form_for :query, url: tweets_path, method: "get", :html => {:class => "navbar-form navbar-left"} do |f| %>
               <div class="form-group">
-                <%= f.text_field :q, placeholder:"#hashtag" , class: "form-control" %>
+                <%= f.text_field :q, placeholder:"#hashtag" , class: "form-control", required: true %>
                 <%= f.text_field :location, placeholder:"Location" , class: "form-control" %>
                 <%= f.text_field :since, placeholder:"Since: mm/dd/yyyy" , class: "form-control" %>
                 <%= f.text_field :until, placeholder:"Until: mm/dd/yyyy" , class: "form-control" %>
                 <%= f.select(:attitude, [["Positive :)",":)"], ["Negative :(", ":("]], {include_blank: "Attitude"}, {:class=> "form-control"})%>
               </div>
-              <%= f.submit "Search", class: "btn btn-default" %>
+              <%= f.submit "Search on Twitter", class: "btn btn-info" %>
             <% end %>
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signed in as <%= current_user.name %> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Something else here</a></li>
+                  <li><%= link_to "Edit profile", edit_user_registration_path(current_user) %></li>
                   <li role="separator" class="divider"></li>
                   <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
                 </ul>
