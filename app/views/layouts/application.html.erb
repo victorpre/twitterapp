@@ -26,8 +26,8 @@
               <div class="form-group">
                 <%= f.text_field :q, placeholder:"#hashtag" , class: "form-control", required: true %>
                 <%= f.text_field :location, placeholder:"Location" , class: "form-control" %>
-                <%= f.text_field :since, placeholder:"Since: mm/dd/yyyy" , class: "form-control" %>
-                <%= f.text_field :until, placeholder:"Until: mm/dd/yyyy" , class: "form-control" %>
+                <%= f.text_field :since, placeholder:"Since: dd/mm/yyyy" , class: "form-control" %>
+                <%= f.text_field :until, placeholder:"Until: dd/mm/yyyy" , class: "form-control" %>
                 <%= f.select(:attitude, [["Positive :)",":)"], ["Negative :(", ":("]], {include_blank: "Attitude"}, {:class=> "form-control"})%>
               </div>
               <%= f.submit "Search on Twitter", class: "btn btn-info" %>

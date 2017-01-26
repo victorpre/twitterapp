@@ -4,10 +4,22 @@
       <div class="card">
         <div class="card-content">
           <div class="card-header-blue">
-               <h1 class="card-heading"><%= "#{tweet["name"]}"%></h1>
-               <i><span class="username help-block"><%="@#{tweet["screen_name"]}"%></span></i>
+            <div class="row">
+              <div class="container">
+                <div class="col-xs-12 col-sm-1">
+                  <%= image_tag(tweet["profile_image_url"], class: "img-circle center-block", size: 80)%>
+                </div>
+                <div class="col-sm-11">
+                  <h1 class="card-heading"><%= "#{tweet["name"]}"%></h1>
+                  <i><span class="username help-block"><%="@#{tweet["screen_name"]}"%></span></i>
+                </div>
+              </div>
             </div>
-            <div class="card-body">
+            <div class="row">
+              <div class="col-xs-offset-4 col-sm-2 col-sm-offset-10"><%="#{tweet["created_at"]}"%></div>
+            </div>
+          </div>
+          <div class="card-body">
             <p> <%= tweet["text"]%></p>
           </div>
         </div>

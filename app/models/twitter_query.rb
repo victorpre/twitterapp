@@ -1,7 +1,6 @@
 class TwitterQuery
   def self.do(args = {})
     client = TwitterClientFactory.new.client
-    binding.pry
 
     hashtag = args.delete "q"
     attitude = args.delete "attitude" if args["attitude"]
@@ -13,8 +12,9 @@ class TwitterQuery
     tweets = []
     payload.each do |tweet|
       tweets << {"screen_name" => tweet.user.screen_name,
-                 "created_at"  => tweet.created_at,
+                 "created_at"  => tweet.created_at.to_date.strftime("%a, %d %b %Y"),
                  "name"        => tweet.user.name,
+                 "profile_image_url"=> tweet.user.profile_image_url.to_s.gsub("_normal",""),
                  "text"        => tweet.full_text }
     end
     tweets
@@ -28,11 +28,11 @@ class TwitterQuery
     end
 
     if params["since"]
-      filters["since"] = parse_date(filters["since"])
+      filters["since"] = parse_date(params["since"])
     end
 
     if params["until"]
-      filters = parse_date(filters["until"])
+      filters["until"] = parse_date(params["until"])
     end
     filters
   end
@@ -41,12 +41,24 @@ class TwitterQuery
     coord = Geocoder.search(location)
     if !coord.empty?
       coord = coord.first.data["geometry"]["location"]
+      coord.values.join(",")+",6km"
+    else
+      nil
     end
-    '#{coord["lat"]},#{coord["lng"]},6km'
   end
 
   def self.clean_params(args)
     args.delete_if{|k,v| v.empty?}
+  end
+
+  def self.parse_date(date)
+    begin
+      date = Date.parse(date)
+    rescue ArgumentError
+      date = nil
+    else
+      date.strftime("%F")
+    end
   end
 
   def self.clean_tweets()
