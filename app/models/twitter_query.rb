@@ -64,11 +64,12 @@ class TwitterQuery
   end
 
   def self.clean_tweet(tweet)
-    offensive_words = tweet.downcase.split(" ") & OFFENSIVE_WORDS_DICT
+    safe_tweet = tweet.dup
+    offensive_words = safe_tweet.downcase.split(" ") & OFFENSIVE_WORDS_DICT
     offensive_words.each do |word|
-      tweet.gsub!(word,"*"*word.size)
+      safe_tweet.gsub!(word,"*"*word.size)
     end
-    tweet
+    safe_tweet
   end
 
   def self.prepare_query(hashtag, attitude)
