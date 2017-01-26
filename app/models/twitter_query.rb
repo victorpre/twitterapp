@@ -17,6 +17,7 @@ class TwitterQuery
                  "created_at"  => tweet.created_at.to_date.strftime("%a, %d %b %Y"),
                  "name"        => tweet.user.name,
                  "profile_image_url"=> tweet.user.profile_image_url.to_s.gsub("_normal",""),
+                 "place"       => get_map_location(tweet, client) unless tweet.place.nil?,
                  "text"        => clean_tweet(tweet.full_text) }
     end
     tweets
@@ -73,8 +74,16 @@ class TwitterQuery
   end
 
   def self.prepare_query(hashtag, attitude)
+    # TODO check for >1 hashtags
     prepared_hashtag = hashtag[0]=="#"? hashtag : "##{hashtag}"
     prepared_hashtag += " #{attitude}" if attitude
     prepared_hashtag
+  end
+
+  def self.get_map_location(tweet, client)
+    place_id = tweet.place.id
+    coords = client.place(place_id).attrs[:centroid]
+    coords[0],coords[1]=coords[1],coords[0]
+    coords
   end
 end
