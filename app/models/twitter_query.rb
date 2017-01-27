@@ -4,10 +4,10 @@ class TwitterQuery
   def self.do(args = {})
     client = TwitterClientFactory.new.client
 
-    hashtag = args.delete "q"
+    hashtags = args.delete "q"
     attitude = args.delete "attitude" if args["attitude"]
 
-    query = prepare_query(hashtag, attitude)
+    query = prepare_query(hashtags, attitude)
     filters = prepare_filters(args)
 
     payload = client.search(query, filters)
@@ -17,7 +17,7 @@ class TwitterQuery
                  "created_at"  => tweet.created_at.to_date.strftime("%a, %d %b %Y"),
                  "name"        => tweet.user.name,
                  "profile_image_url"=> tweet.user.profile_image_url.to_s.gsub("_normal",""),
-                 "place"       => (get_map_url(tweet, client) unless tweet.place.nil?),
+                 "place"       => (get_map_url(tweet, client).html_safe unless tweet.place.nil?),
                  "text"        => clean_tweet(tweet.full_text) }
     end
     tweets
@@ -73,26 +73,32 @@ class TwitterQuery
     safe_tweet
   end
 
-  def self.prepare_query(hashtag, attitude)
-    # TODO check for >1 hashtags
-    prepared_hashtag = hashtag[0]=="#"? hashtag : "##{hashtag}"
+  def self.prepare_query(query, attitude)
+    terms = []
+    query.split(" ").each do |hashtag|
+      terms << (hashtag[0]=="#"? hashtag : "##{hashtag}")
+    end
+    prepared_hashtag = terms.join(" ")
     prepared_hashtag += " #{attitude}" if attitude
     prepared_hashtag
   end
 
   def self.get_map_url(tweet, client)
     coords = get_map_location(tweet,client)
-    url = "https://maps.googleapis.com/maps/api/staticmap?center=#{coords['lat']},#{coords['lng']}"+
-    "&zoom=11&size=400x400&markers=color:red|#{coords['lat']},#{coords['lng']}"
-    img_tag = "<img src=\"#{url}\">"
+    # url = "https://maps.googleapis.com/maps/api/staticmap?center=#{coords['lat']},#{coords['lng']}"+
+    # "&zoom=11&size=400x400&markers=color:red|#{coords['lat']},#{coords['lng']}"+
+    # "&key=#{Rails.application.secrets.google_maps_api_key}"
+    # img_tag = "<img src=\"#{url}\">"
+    url="https://www.google.com/maps/embed/v1/place?q=#{coords['lat']},#{coords['lng']}&key=AIzaSyDQMZd5Exf1zChPkMHTpZJrYhe-P23H23k"
+    iframe_tag = '<iframe width="100%" height="200" frameborder="0" style="border:0" src="'+url+'" allowfullscreen></iframe>'
   end
 
   def self.get_map_location(tweet, client)
     place_id = tweet.place.id
     coords_arr = client.place(place_id).attrs[:centroid]
     coords = {}
-    coords["lat"] = coords_arr[0]
-    coords["lng"] = coords_arr[1]
+    coords["lng"] = coords_arr[0]
+    coords["lat"] = coords_arr[1]
     coords
   end
 end
