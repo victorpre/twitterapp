@@ -51,6 +51,8 @@ gem 'rails_autolink'
 
 group :development, :test do
   gem 'pry'
+  gem 'rspec-rails'
+  gem 'faker'
 end
 
 group :development do
