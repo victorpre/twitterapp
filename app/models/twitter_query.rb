@@ -1,5 +1,6 @@
 class TwitterQuery
   OFFENSIVE_WORDS_DICT = ["ass", "bitch", "cunt", "fuck","fucker", "motherfucker", "nigger", "asshole"]
+  HASHTAG_REGEX = /\B(\#[a-zA-Z]+\b)(?!;)/
 
   def self.do(args = {})
     client = TwitterClientFactory.new.client
@@ -12,20 +13,19 @@ class TwitterQuery
 
     payload = client.search(query, filters)
     tweets = []
-    payload.each do |tweet|
+    payload.take(50).each do |tweet|
       tweets << {"screen_name" => tweet.user.screen_name,
                  "created_at"  => tweet.created_at.to_date.strftime("%a, %d %b %Y"),
                  "name"        => tweet.user.name,
                  "profile_image_url"=> tweet.user.profile_image_url.to_s.gsub("_normal",""),
-                 "place"       => (get_map_url(tweet, client).html_safe unless tweet.place.nil?),
-                 "text"        => clean_tweet(tweet.full_text) }
+                 "map_iframe"       => (get_map_url(tweet, client).html_safe unless tweet.place.nil?),
+                 "text"        => set_hashtags_urls(tweet.full_text) }
     end
     tweets
   end
 
   def self.prepare_filters(params)
     filters = {}
-    filters["result_type"] = "recent"
     if params["location"]
       filters["geocode"] = get_location_coordinates(params["location"])
     end
@@ -37,6 +37,7 @@ class TwitterQuery
     if params["until"]
       filters["until"] = parse_date(params["until"])
     end
+    filters["result_type"] = "recent"
     filters
   end
 
@@ -73,6 +74,13 @@ class TwitterQuery
     safe_tweet
   end
 
+  def self.set_hashtags_urls(tweet)
+    sanitized_tweet = clean_tweet(tweet)
+    sanitized_tweet.gsub(HASHTAG_REGEX){|hashtag|
+      "<a href='tweets?query[q]=#{hashtag[1..-1]}'>#{hashtag}</a>"
+    }
+  end
+
   def self.prepare_query(query, attitude)
     terms = []
     query.split(" ").each do |hashtag|
@@ -85,10 +93,6 @@ class TwitterQuery
 
   def self.get_map_url(tweet, client)
     coords = get_map_location(tweet,client)
-    # url = "https://maps.googleapis.com/maps/api/staticmap?center=#{coords['lat']},#{coords['lng']}"+
-    # "&zoom=11&size=400x400&markers=color:red|#{coords['lat']},#{coords['lng']}"+
-    # "&key=#{Rails.application.secrets.google_maps_api_key}"
-    # img_tag = "<img src=\"#{url}\">"
     url="https://www.google.com/maps/embed/v1/place?q=#{coords['lat']},#{coords['lng']}&key=AIzaSyDQMZd5Exf1zChPkMHTpZJrYhe-P23H23k"
     iframe_tag = '<iframe width="100%" height="200" frameborder="0" style="border:0" src="'+url+'" allowfullscreen></iframe>'
   end
