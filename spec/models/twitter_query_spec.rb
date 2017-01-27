@@ -34,6 +34,6 @@ RSpec.describe TwitterQuery, type: :model do
     expect(TwitterQuery.set_hashtags_urls(tweet_text)).to start_with("<a href='tweets?query[q]=")
 
     not_a_hashtag = "hashtag"
-    expect(TwitterQuery.set_hashtags_urls(not_a_hashtag)).not_to start_with("<a href='tweets?query[q]=")
+    expect(TwitterQuery.set_hashtags_urls(not_a_hashtag)).to eq not_a_hashtag
   end
 end
