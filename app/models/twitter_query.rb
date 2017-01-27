@@ -17,7 +17,7 @@ class TwitterQuery
                  "created_at"  => tweet.created_at.to_date.strftime("%a, %d %b %Y"),
                  "name"        => tweet.user.name,
                  "profile_image_url"=> tweet.user.profile_image_url.to_s.gsub("_normal",""),
-                 "place"       => get_map_location(tweet, client) unless tweet.place.nil?,
+                 "place"       => (get_map_url(tweet, client) unless tweet.place.nil?),
                  "text"        => clean_tweet(tweet.full_text) }
     end
     tweets
@@ -80,10 +80,19 @@ class TwitterQuery
     prepared_hashtag
   end
 
+  def self.get_map_url(tweet, client)
+    coords = get_map_location(tweet,client)
+    url = "https://maps.googleapis.com/maps/api/staticmap?center=#{coords['lat']},#{coords['lng']}"+
+    "&zoom=11&size=400x400&markers=color:red|#{coords['lat']},#{coords['lng']}"
+    img_tag = "<img src=\"#{url}\">"
+  end
+
   def self.get_map_location(tweet, client)
     place_id = tweet.place.id
-    coords = client.place(place_id).attrs[:centroid]
-    coords[0],coords[1]=coords[1],coords[0]
+    coords_arr = client.place(place_id).attrs[:centroid]
+    coords = {}
+    coords["lat"] = coords_arr[0]
+    coords["lng"] = coords_arr[1]
     coords
   end
 end
