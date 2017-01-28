@@ -7,9 +7,7 @@
         <%= f.email_field :email, class: "form-control", placeholder: "Email address", autofocus: true %>
         <%= f.label :password, class:"sr-only" %>
         <%= f.password_field :password, class: "form-control", placeholder: "Password", autocomplete: "off" %>
-        <div class="actions">
-            <%= f.submit "Log in", class: "btn btn-lg btn-success btn-block" %>
-        </div>
+            <%= f.submit "Log in", class: "btn btn-lg btn-default btn-block disabled", disabled: true %>
       <% end %>
       <div class="row or-divider">
         <span>OR</span>

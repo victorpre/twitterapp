@@ -1,37 +1,36 @@
-<div class="container">
-  <% if flash[:error] && @tweets.empty? %>
-    <div class="alert alert-danger" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <strong>Sorry! </strong><%= flash[:error] %></div>
-      <%=render "shared/no_results"%>
-  <%else%>
-    <%@tweets.each do |tweet|%>
-      <div class="row">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-header-blue">
-              <div class="row">
-                <div class="container">
-                  <div class="col-xs-12 col-sm-1">
-                    <%= image_tag(tweet["profile_image_url"], class: "img-circle center-block", size: 80)%>
-                  </div>
-                  <div class="col-xs-6 col-sm-11 col-sm-offset-0 col-xs-offset-3">
-                    <h1 class="card-heading"><%= "#{tweet["name"]}"%></h1>
-                    <i><span class="username help-block"><%="@#{tweet["screen_name"]}"%></span></i>
-                  </div>
+<% if flash[:error] && @tweets.empty? %>
+  <div class="alert alert-danger" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong>Sorry! </strong><%= flash[:error] %>
+  </div>
+    <%=render "shared/no_results"%>
+<%else%>
+  <%@tweets.each do |tweet|%>
+    <div class="row">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-header-blue">
+            <div class="row">
+              <div class="container">
+                <div class="col-xs-12 col-sm-1">
+                  <%= image_tag(tweet["profile_image_url"], class: "img-circle center-block", size: 80)%>
+                </div>
+                <div class="col-xs-6 col-sm-11 col-sm-offset-0 col-xs-offset-3">
+                  <h1 class="card-heading"><%= "#{tweet["name"]}"%></h1>
+                  <i><span class="username help-block"><%="@#{tweet["screen_name"]}"%></span></i>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-xs-offset-4 col-sm-2 col-sm-offset-10"><%="#{tweet["created_at"]}"%></div>
-              </div>
             </div>
-            <div class="card-body">
-              <p> <%= auto_link tweet["text"]%></p>
-              <%= tweet["map_iframe"] %>
+            <div class="row">
+              <div class="col-xs-offset-4 col-sm-2 col-sm-offset-10"><%="#{tweet["created_at"]}"%></div>
             </div>
+          </div>
+          <div class="card-body">
+            <p> <%= auto_link tweet["text"]%></p>
+            <%= tweet["map_iframe"] %>
           </div>
         </div>
       </div>
-    <%end%>
+    </div>
   <%end%>
-</div>
+<%end%>
