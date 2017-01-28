@@ -11,7 +11,6 @@ class TwitterQuery
     query = prepare_query(hashtags, attitude)
     filters = prepare_filters(args)
     tweets = []
-
     if query.empty?
       raise "That was not a valid hashtag."
     else
@@ -20,12 +19,12 @@ class TwitterQuery
         raise "Nothing found about #{hashtags}"
       else
         payload.take(50).each do |tweet|
-          tweets << {"screen_name" => tweet.user.screen_name,
-                     "created_at"  => tweet.created_at.to_date.strftime("%a, %d %b %Y"),
-                     "name"        => tweet.user.name,
+          tweets << {"screen_name"      => tweet.user.screen_name,
+                     "created_at"       => tweet.created_at.to_date.strftime("%a, %d %b %Y"),
+                     "name"             => tweet.user.name,
                      "profile_image_url"=> tweet.user.profile_image_url.to_s.gsub("_normal",""),
                      "map_iframe"       => (get_map_url(tweet, client).html_safe unless tweet.place.nil?),
-                     "text"        => set_hashtags_urls(tweet.full_text) }
+                     "text"             => set_hashtags_urls(tweet.full_text) }
         end
       end
       return tweets
