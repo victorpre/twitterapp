@@ -5,7 +5,12 @@ class TweetsController < ApplicationController
 
   def index
     tweet_params_hash = TwitterQuery.clean_params(tweet_params.to_h)
-    @tweets = TwitterQuery.do(tweet_params_hash)
+    @tweets = []
+    begin
+      @tweets = TwitterQuery.do(tweet_params_hash)
+    rescue Exception => ex
+      flash[:error] = ex.message
+    end
   end
 
   private

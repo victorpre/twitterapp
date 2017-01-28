@@ -1,6 +1,9 @@
 <div class="container">
-  <%if @tweets.empty?%>
-    <%=render "shared/no_results"%>
+  <% if flash[:error] && @tweets.empty? %>
+    <div class="alert alert-danger" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Sorry! </strong><%= flash[:error] %></div>
+      <%=render "shared/no_results"%>
   <%else%>
     <%@tweets.each do |tweet|%>
       <div class="row">

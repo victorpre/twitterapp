@@ -10,18 +10,26 @@ class TwitterQuery
 
     query = prepare_query(hashtags, attitude)
     filters = prepare_filters(args)
-
-    payload = client.search(query, filters)
     tweets = []
-    payload.take(50).each do |tweet|
-      tweets << {"screen_name" => tweet.user.screen_name,
-                 "created_at"  => tweet.created_at.to_date.strftime("%a, %d %b %Y"),
-                 "name"        => tweet.user.name,
-                 "profile_image_url"=> tweet.user.profile_image_url.to_s.gsub("_normal",""),
-                 "map_iframe"       => (get_map_url(tweet, client).html_safe unless tweet.place.nil?),
-                 "text"        => set_hashtags_urls(tweet.full_text) }
+
+    if query.empty?
+      raise "That was not a valid hashtag."
+    else
+      payload = client.search(query, filters)
+      if payload.entries.empty?
+        raise "Nothing found about #{hashtags}"
+      else
+        payload.take(50).each do |tweet|
+          tweets << {"screen_name" => tweet.user.screen_name,
+                     "created_at"  => tweet.created_at.to_date.strftime("%a, %d %b %Y"),
+                     "name"        => tweet.user.name,
+                     "profile_image_url"=> tweet.user.profile_image_url.to_s.gsub("_normal",""),
+                     "map_iframe"       => (get_map_url(tweet, client).html_safe unless tweet.place.nil?),
+                     "text"        => set_hashtags_urls(tweet.full_text) }
+        end
+      end
+      return tweets
     end
-    tweets
   end
 
   def self.prepare_filters(params)
@@ -81,11 +89,14 @@ class TwitterQuery
     }
   end
 
-  def self.prepare_query(query, attitude)
+  def self.prepare_query(query, attitude=nil)
     terms = []
     query.split(" ").each do |hashtag|
       terms << (hashtag[0]=="#"? hashtag : "##{hashtag}")
     end
+
+    terms.delete_if{|term| !term.match(HASHTAG_REGEX)}
+
     prepared_hashtag = terms.join(" ")
     prepared_hashtag += " #{attitude}" if attitude
     prepared_hashtag
