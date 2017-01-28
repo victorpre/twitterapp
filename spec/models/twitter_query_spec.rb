@@ -36,4 +36,26 @@ RSpec.describe TwitterQuery, type: :model do
     not_a_hashtag = "hashtag"
     expect(TwitterQuery.set_hashtags_urls(not_a_hashtag)).to eq not_a_hashtag
   end
+
+  it "should set filters to Twitter API" do
+    params = {"location" => "Rio de Janeiro",
+              "since"    => "11/10/2010"}
+
+    expect(TwitterQuery.prepare_filters(params)).to include("geocode" => a_string_matching(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?),6km$/))
+    expect(TwitterQuery.prepare_filters(params)).to include("since" => "2010-10-11")
+    expect(TwitterQuery.prepare_filters(params)).to include("result_type" => "recent")
+    expect(TwitterQuery.prepare_filters(params)).not_to include("until")
+  end
+
+  it "should preare query for Twitter API " do
+    query = "#hashtag"
+    not_a_hashtag = "hashtag"
+    multiple_hashtags = "#hashtag hashtag"
+    wrong_hashtag = "#!wrong"
+
+    expect(TwitterQuery.prepare_query(query)).to eq(query)
+    expect(TwitterQuery.prepare_query(not_a_hashtag)).to eq("##{not_a_hashtag}")
+    expect(TwitterQuery.prepare_query(multiple_hashtags)).to eq("#hashtag #hashtag")
+    expect(TwitterQuery.prepare_query(wrong_hashtag)).to eq("")
+  end
 end
