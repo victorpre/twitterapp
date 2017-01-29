@@ -25,9 +25,9 @@
             <%= form_for :query, url: tweets_path, method: "get", :html => {:class => "navbar-form navbar-left"} do |f| %>
               <div class="form-group">
                 <%= f.text_field :q, placeholder:"#hashtag" , class: "form-control", required: true %>
-                <%= f.text_field :location, placeholder:"Location" , class: "form-control" %>
-                <%= f.text_field :since, placeholder:"Since: dd/mm/yyyy" , class: "form-control" %>
-                <%= f.text_field :until, placeholder:"Until: dd/mm/yyyy" , class: "form-control" %>
+                <%= f.text_field :location, placeholder:"Location" , class: "form-control", data: {toggle: "tooltip", placement: "bottom" }, title: "Ex: Rio de Janeiro" %>
+                <%= f.text_field :since, placeholder:"Since: dd/mm/yyyy", class: "form-control", data: {toggle: "tooltip", placement: "bottom" }, title: "Date 6 to 9 days ago" %>
+                <%= f.text_field :until, placeholder:"Until: dd/mm/yyyy", class: "form-control", data: {toggle: "tooltip", placement: "bottom" }, title: "Date 6 to 9 days ago" %>
                 <%= f.select(:attitude, [["Positive :)",":)"], ["Negative :(", ":("]], {include_blank: "Attitude"}, {:class=> "form-control"})%>
               </div>
               <%= f.submit "Search on Twitter", class: "btn btn-info" %>
