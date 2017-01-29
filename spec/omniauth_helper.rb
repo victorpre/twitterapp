@@ -10,7 +10,8 @@ def set_omniauth(opts = {})
   user_hash = credentials[:info]
 
   OmniAuth.config.test_mode = true
-  OmniAuth.config.mock_auth[provider] = credentials
+  OmniAuth.config.mock_auth[provider] = OpenStruct.new credentials
+
 end
 
 def set_invalid_omniauth(opts = {})
