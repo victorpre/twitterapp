@@ -4,7 +4,6 @@ class TwitterQuery
 
   def self.do(args = {})
     client = TwitterClientFactory.new.client
-
     hashtags = args.delete "q"
     attitude = args.delete "attitude" if args["attitude"]
 

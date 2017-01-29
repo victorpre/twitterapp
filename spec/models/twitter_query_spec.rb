@@ -58,4 +58,11 @@ RSpec.describe TwitterQuery, type: :model do
     expect(TwitterQuery.prepare_query(multiple_hashtags)).to eq("#hashtag #hashtag")
     expect(TwitterQuery.prepare_query(wrong_hashtag)).to eq("")
   end
+
+  it "should wrap wrong queries" do
+    args = {
+      "q"=>"$wrong"
+    }
+    expect{TwitterQuery.do(args)}.to raise_error("That was not a valid hashtag.")
+  end
 end

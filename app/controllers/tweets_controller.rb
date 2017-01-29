@@ -1,8 +1,6 @@
 class TweetsController < ApplicationController
-  def search
-
-  end
-
+  before_action :authenticate_user!
+  
   def index
     tweet_params_hash = TwitterQuery.clean_params(tweet_params.to_h)
     @tweets = []

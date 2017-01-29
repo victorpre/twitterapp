@@ -52,6 +52,7 @@ gem 'rails_autolink'
 group :development, :test do
   gem 'pry'
   gem 'rspec-rails'
+  gem 'rails-controller-testing'
   gem 'faker'
 end
 
