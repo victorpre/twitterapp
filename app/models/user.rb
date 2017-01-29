@@ -6,16 +6,14 @@ class User < ApplicationRecord
          :registerable, :trackable,
          :omniauthable,:validatable, :omniauth_providers => [:twitter]
 
-  # validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
   has_one :identity, dependent: :destroy
 
   def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
     identity = Identity.find_for_oauth(auth)
     user = signed_in_resource ? signed_in_resource : identity.user
-
     if user.nil?
       user = User.new(
-        name: auth.extra.raw_info.name,
+        name: auth.info.name,
         profile_img_url: auth.info.image.gsub("_normal",""),
         email: "#{TEMP_EMAIL_PREFIX}#{auth.uid}#{auth.provider}.com",
         password: Devise.friendly_token[0,20]
