@@ -16,7 +16,7 @@ end
 
 def set_invalid_omniauth(opts = {})
 
-  credentials = { :provider => :facebook,
+  credentials = { :provider => :twitter,
                   :invalid  => :invalid_crendentials
                  }.merge(opts)
 
