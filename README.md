@@ -5,7 +5,7 @@ Ruby version: 2.4.0
 Rails version: 5.0.1
 
 Available in:
-https://twitter-gympass.herokuapp.com/
+https://twitter-api-example.herokuapp.com/
 
 For development:
 
